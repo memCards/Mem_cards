@@ -1,5 +1,7 @@
 package view;
 
+import ui.ButtonStyle;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,12 +11,46 @@ public class MainForm extends JFrame {
     private JButton settingsButton;
     private JPanel mainPanel;
     private JPanel currentPanel;
+    private JFrame newCardForm = null;
 
     public MainForm() {
+        this.setTitle("Mem cards");
         this.setContentPane(mainPanel);
+        setButtonStyle();
+        addCardsButtonListener();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
+        setFrameLocation();
         this.setVisible(true);
+    }
+
+    private void setButtonStyle() {
+        ButtonStyle buttonStyle = new ButtonStyle();
+        for (Component component : mainPanel.getComponents()) {
+            if (component instanceof JButton) {
+                ((JButton) component).setUI(buttonStyle);
+                component.setBackground(new Color(0xF7A962E0, true));
+                component.setForeground(Color.white);
+            }
+        }
+    }
+
+    private void setFrameLocation() {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+        this.setLocation(x, y);
+    }
+
+    private void addCardsButtonListener() {
+        cardsButton.addActionListener((event) -> {
+            if (newCardForm == null) {
+                newCardForm = new NewCardForm();
+            }
+            newCardForm.setLocation(cardsButton.getLocationOnScreen());
+            newCardForm.setLocation(newCardForm.getX(), newCardForm.getY() - 300);
+            newCardForm.setVisible(true);
+        });
     }
 
     {
@@ -36,7 +72,7 @@ public class MainForm extends JFrame {
         mainPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
         currentPanel = new JPanel();
         currentPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        mainPanel.add(currentPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        mainPanel.add(currentPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 3, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 500), null, 0, false));
         learnButton = new JButton();
         learnButton.setText("Учить");
         mainPanel.add(learnButton, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -55,4 +91,5 @@ public class MainForm extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
+
 }
