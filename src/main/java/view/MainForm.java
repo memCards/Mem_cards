@@ -19,7 +19,7 @@ public class MainForm extends JFrame {
         this.setTitle("Mem cards");
         this.setContentPane(mainPanel);
         addCardsButtonListener();
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
         setButtonStyle();
         setFrameLocation();
@@ -27,11 +27,11 @@ public class MainForm extends JFrame {
     }
 
     private void setButtonIcons(JButton button) {
-        Image img = null;
+        Image img;
         try {
             img = new ImageIcon(ImageIO
                     .read(getClass()
-                    .getResourceAsStream(String.format("/icons/%s.png", button.getName())))).getImage();
+                            .getResourceAsStream(String.format("/icons/%s.png", button.getName())))).getImage();
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -62,7 +62,7 @@ public class MainForm extends JFrame {
     }
 
     private void addCardsButtonListener() {
-        cardsButton.addActionListener((event) -> {
+        cardsButton.addActionListener(event -> {
             if (newCardForm == null) {
                 newCardForm = new NewCardForm();
             }

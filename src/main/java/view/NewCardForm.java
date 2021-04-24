@@ -19,7 +19,7 @@ public class NewCardForm extends JFrame {
         saveButton.setUI(new ButtonStyle());
         saveButton.setBackground(new Color(0xF7A962E0, true));
         saveButton.setForeground(Color.white);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.pack();
     }
 
