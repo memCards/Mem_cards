@@ -18,4 +18,8 @@ public class Password {
         }
         return passwordHash;
     }
+
+    public static boolean checkPassword(String password, String passwordHash) {
+        return passwordHash.equals(getPasswordHash(password));
+    }
 }

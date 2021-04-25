@@ -7,7 +7,7 @@ import ui.ButtonStyle;
 import javax.swing.*;
 import java.awt.*;
 
-public class RegistrationForm extends JFrame {
+public class RegistrationForm extends JPanel {
     private final JPanel panel = new JPanel();
     private final JTextField firstNameTextField = new JTextField();
     private final JTextField lastNameTextField = new JTextField();
@@ -48,9 +48,7 @@ public class RegistrationForm extends JFrame {
         setupTextFieldsAndLabels();
         setupRegisterButton();
 
-        this.setContentPane(panel);
-        this.pack();
-        FrameLocation.setFrameLocation(this);
+        this.add(panel);
         this.setVisible(true);
     }
 
