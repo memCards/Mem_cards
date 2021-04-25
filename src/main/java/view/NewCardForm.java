@@ -17,7 +17,7 @@ public class NewCardForm extends JFrame {
     private JPanel mainPanel;
     private JButton saveButton;
 
-    private CardControl cardControl;
+    private final CardControl cardControl;
 
     public NewCardForm() {
         cardControl = new CardControl();
@@ -29,12 +29,7 @@ public class NewCardForm extends JFrame {
         saveButton.setForeground(Color.white);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.pack();
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pushCard();
-            }
-        });
+        saveButton.addActionListener(e -> pushCard());
     }
 
     private void pushCard() {

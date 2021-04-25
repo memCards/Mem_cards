@@ -6,65 +6,41 @@ import connection.HibernateConnection;
 
 public class CardControl {
     public void addCard(Card card) {
-        Session session = null;
-        try {
-            session = HibernateConnection.getSessionFactory().openSession();
+        try (Session session = HibernateConnection.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.save(card);
             session.getTransaction().commit();
         } catch (Exception ex) {
             // TODO error form
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
         }
     }
 
     public void updateCard(Card card) {
-        Session session = null;
-        try {
-            session = HibernateConnection.getSessionFactory().openSession();
+        try (Session session = HibernateConnection.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.update(card);
             session.getTransaction().commit();
         } catch (Exception ex) {
             // TODO error form
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
         }
     }
 
     public void deleteCard(Card card) {
-        Session session = null;
-        try {
-            session = HibernateConnection.getSessionFactory().openSession();
+        try (Session session = HibernateConnection.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.delete(card);
             session.getTransaction().commit();
         } catch (Exception ex) {
             // TODO error form
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
         }
     }
 
-    public Card getCardById(Long card_id) {
-        Session session = null;
+    public Card getCardById(Long cardId) {
         Card card = null;
-        try {
-            session = HibernateConnection.getSessionFactory().openSession();
-            card = session.load(Card.class, card_id);
+        try (Session session = HibernateConnection.getSessionFactory().openSession()) {
+            card = session.load(Card.class, cardId);
         } catch (Exception ex) {
             // TODO error form
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
         }
         return card;
     }
