@@ -1,5 +1,7 @@
 package main;
 
+import control.CardControl;
+import entity.Card;
 import view.MainForm;
 
 public class Main {
