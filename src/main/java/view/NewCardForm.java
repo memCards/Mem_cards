@@ -1,5 +1,7 @@
 package view;
 
+import control.CardControl;
+import entity.Card;
 import ui.ButtonStyle;
 
 import javax.swing.*;
@@ -13,7 +15,11 @@ public class NewCardForm extends JFrame {
     private JPanel mainPanel;
     private JButton saveButton;
 
+    private final CardControl cardControl;
+
     public NewCardForm() {
+        cardControl = new CardControl();
+
         this.setTitle("Новая карточка");
         this.setContentPane(mainPanel);
         saveButton.setUI(new ButtonStyle());
@@ -21,6 +27,16 @@ public class NewCardForm extends JFrame {
         saveButton.setForeground(Color.white);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.pack();
+        saveButton.addActionListener(e -> pushCard());
+    }
+
+    private void pushCard() {
+        Card card = new Card();
+        card.setId((long) 0);
+        card.setQuestion(questText.getText());
+        card.setAnswer(answerPane.getText());
+        // TODO card set users
+        cardControl.addCard(card);
     }
 
     {
