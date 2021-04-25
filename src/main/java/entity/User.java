@@ -1,5 +1,7 @@
 package entity;
 
+import password.Password;
+
 public class User {
     private String email;
     private String firstName;
@@ -13,7 +15,7 @@ public class User {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
+        this.password = Password.getPasswordHash(password);
     }
 
     public String getEmail() {
@@ -45,6 +47,6 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = Password.getPasswordHash(password);
     }
 }

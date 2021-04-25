@@ -1,13 +1,13 @@
 package view;
 
+import control.UserController;
+import entity.User;
 import ui.ButtonStyle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-public class RegistrationForm {
+public class RegistrationForm extends JFrame {
     private final JPanel panel = new JPanel();
     private final JTextField firstNameTextField = new JTextField();
     private final JTextField lastNameTextField = new JTextField();
@@ -47,6 +47,11 @@ public class RegistrationForm {
         panel.setBackground(new Color(232, 218, 232));
         setupTextFieldsAndLabels();
         setupRegisterButton();
+
+        this.setContentPane(panel);
+        this.pack();
+        FrameLocation.setFrameLocation(this);
+        this.setVisible(true);
     }
 
     private void setupTextFieldsAndLabels() {
@@ -63,14 +68,14 @@ public class RegistrationForm {
 
         constraints.gridwidth = 1;
         constraints.insets.bottom = 0;
-        setupLabel(constraints, "Имя",  1);
+        setupLabel(constraints, "Имя", 1);
         setupTextField(constraints, firstNameTextField, 1);
-        setupLabel(constraints, "Фамилия",  2);
-        setupTextField(constraints, lastNameTextField,  2);
+        setupLabel(constraints, "Фамилия", 2);
+        setupTextField(constraints, lastNameTextField, 2);
         setupLabel(constraints, "Email", 3);
-        setupTextField(constraints, emailTextField,  3);
+        setupTextField(constraints, emailTextField, 3);
         setupLabel(constraints, "Пароль", 4);
-        setupTextField(constraints, passwordTextField,  4);
+        setupTextField(constraints, passwordTextField, 4);
     }
 
     private void setupLabel(GridBagConstraints constraints, String labelText, int gridy) {
@@ -107,11 +112,10 @@ public class RegistrationForm {
 
         panel.add(registerButton, constraints);
 
-        registerButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                //TODO: handle register button pressing
-            }
+        registerButton.addActionListener(e -> {
+            UserController userController = new UserController();
+            User user = new User(getEmail(), getFirstName(), getLastName(), getPassword());
+            userController.addUser(user);
         });
     }
 }
