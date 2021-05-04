@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="entity.Card" table="cards">
+    <class name="entity.Card" table="cards" lazy="false">
 
         <meta attribute="class-description">
             This class contains card data
@@ -16,7 +16,7 @@
         <property name="question" type="java.lang.String" column="question"/>
         <property name="answer" type="java.lang.String" column="answer"/>
 
-        <set name="users" table="user_cards">
+        <set name="users" table="user_cards" lazy="false">
             <key>
                 <column name="card_id" not-null="true"/>
             </key>
