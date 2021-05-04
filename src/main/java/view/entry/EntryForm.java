@@ -1,5 +1,7 @@
 package view.entry;
 
+import ui.ButtonStyle;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -21,6 +23,20 @@ public class EntryForm extends JPanel {
 
         this.add(panel);
         this.setVisible(true);
+    }
+
+    void setupButton(JButton button, JPanel panel) {
+        GridBagConstraints constraints = new GridBagConstraints();
+        button.setPreferredSize(new Dimension(300, 40));
+        button.setBackground(new Color(0xF7A962E0, true));
+        button.setForeground(Color.white);
+        button.setUI(new ButtonStyle());
+        constraints.gridx = 0;
+        constraints.gridy = 5;
+        constraints.gridwidth = 2;
+        constraints.insets.top = 20;
+
+        panel.add(button, constraints);
     }
 
     void setupLabels(GridBagConstraints constraints, JLabel registrationLabel, JPanel panel) {

@@ -2,7 +2,6 @@ package view.entry;
 
 import control.UserController;
 import entity.User;
-import ui.ButtonStyle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,18 +55,7 @@ public class RegistrationForm extends EntryForm {
     }
 
     private void setupRegisterButton() {
-        GridBagConstraints constraints = new GridBagConstraints();
-
-        registerButton.setPreferredSize(new Dimension(300, 40));
-        registerButton.setBackground(new Color(0xF7A962E0, true));
-        registerButton.setForeground(Color.white);
-        registerButton.setUI(new ButtonStyle());
-        constraints.gridx = 0;
-        constraints.gridy = 5;
-        constraints.gridwidth = 2;
-        constraints.insets.top = 20;
-
-        panel.add(registerButton, constraints);
+        setupButton(registerButton, panel);
 
         registerButton.addActionListener(e -> {
             UserController userController = new UserController();

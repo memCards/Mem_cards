@@ -1,7 +1,6 @@
 package control;
 
 import connection.HibernateConnection;
-import entity.Card;
 import entity.User;
 import org.hibernate.Session;
 
@@ -39,7 +38,8 @@ public class UserController {
 
     public User getUserByEmail(String email) {
         User user = null;
-        try (Session session = HibernateConnection.getSessionFactory().openSession()) {
+        Session session = HibernateConnection.getSessionFactory().openSession();
+        try {
             user = session.load(User.class, email);
         } catch (Exception e) {
             e.printStackTrace();

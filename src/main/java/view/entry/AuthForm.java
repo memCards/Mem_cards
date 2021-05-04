@@ -3,7 +3,7 @@ package view.entry;
 import control.UserController;
 import entity.User;
 import password.Password;
-import ui.CustomButtonStyle;
+import view.MainForm;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +12,11 @@ public class AuthForm extends EntryForm {
     private final JTextField emailTextField = new JTextField();
     private final JPasswordField passwordTextField = new JPasswordField();
     private final JButton loginButton = new JButton("Войти");
+    private final LoginForm loginForm;
 
-    public AuthForm() {
+    public AuthForm(LoginForm loginForm) {
         super();
+        this.loginForm = loginForm;
         setupAuthView();
     }
 
@@ -43,24 +45,15 @@ public class AuthForm extends EntryForm {
     }
 
     private void setupLoginButton() {
-        GridBagConstraints constraints = new GridBagConstraints();
-
-        loginButton.setPreferredSize(new Dimension(250, 40));
-        loginButton.setBackground(new Color(0xF7A962E0, true));
-        loginButton.setForeground(Color.white);
-        loginButton.setUI(new CustomButtonStyle());
-        constraints.gridx = 0;
-        constraints.gridy = 5;
-        constraints.gridwidth = 2;
-        constraints.insets.top = 20;
-
-        panel.add(loginButton, constraints);
+        setupButton(loginButton, panel);
 
         loginButton.addActionListener(e -> {
             UserController userController = new UserController();
             User user = userController.getUserByEmail(getEmail());
             if (Password.checkPassword(getPassword(), user.getPassword())) {
+                new MainForm(user);
                 System.out.println("авторизован");
+                loginForm.dispose();
             } else {
                 System.out.println("неверный пароль");
             }

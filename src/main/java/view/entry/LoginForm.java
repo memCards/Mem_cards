@@ -8,15 +8,40 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginForm extends JFrame {
+    private enum CurrentPanel {AUTH, REGISTER}
 
+    private JPanel mainPanel;
+    private JPanel loginPanel;
+    private JButton backButton;
+    private CurrentPanel currentPanel = CurrentPanel.AUTH;
 
-    private void createUIComponents() {
-        loginPanel = new JPanel(new CardLayout());
+    public LoginForm() {
+        $$$setupUI$$$();
+        this.setContentPane(mainPanel);
+        initButtons();
 
-        AuthForm auth = new AuthForm();
-        RegistrationForm register = new RegistrationForm();
-        loginPanel.add(auth, "auth");
-        loginPanel.add(register, "register");
+        this.pack();
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        FrameLocation.setFrameLocation(this);
+        this.setVisible(true);
+    }
+
+    private void initButtons() {
+        backButton.addActionListener(e -> {
+            if (currentPanel == CurrentPanel.AUTH) {
+                currentPanel = CurrentPanel.REGISTER;
+                ((CardLayout) loginPanel.getLayout()).show(loginPanel, "register");
+                backButton.setText("Авторизоваться");
+                this.pack();
+                return;
+            }
+            if (currentPanel == CurrentPanel.REGISTER) {
+                currentPanel = CurrentPanel.AUTH;
+                ((CardLayout) loginPanel.getLayout()).show(loginPanel, "auth");
+                backButton.setText("Зарегистрироваться");
+                this.pack();
+            }
+        });
     }
 
     /**
@@ -43,38 +68,12 @@ public class LoginForm extends JFrame {
         return mainPanel;
     }
 
-    private enum CurrentPanel {AUTH, REGISTER}
+    private void createUIComponents() {
+        loginPanel = new JPanel(new CardLayout());
 
-    private JPanel mainPanel;
-    private JPanel loginPanel;
-    private JButton backButton;
-    private CurrentPanel currentPanel = CurrentPanel.AUTH;
-
-    public LoginForm() {
-        $$$setupUI$$$();
-        this.setContentPane(mainPanel);
-        initButtons();
-
-        this.pack();
-        FrameLocation.setFrameLocation(this);
-        this.setVisible(true);
-    }
-
-    private void initButtons() {
-        backButton.addActionListener(e -> {
-            if (currentPanel == CurrentPanel.AUTH) {
-                currentPanel = CurrentPanel.REGISTER;
-                ((CardLayout) loginPanel.getLayout()).show(loginPanel, "register");
-                backButton.setText("Авторизоваться");
-                this.pack();
-                return;
-            }
-            if (currentPanel == CurrentPanel.REGISTER) {
-                currentPanel = CurrentPanel.AUTH;
-                ((CardLayout) loginPanel.getLayout()).show(loginPanel, "auth");
-                backButton.setText("Зарегистрироваться");
-                this.pack();
-            }
-        });
+        AuthForm auth = new AuthForm(this);
+        RegistrationForm register = new RegistrationForm();
+        loginPanel.add(auth, "auth");
+        loginPanel.add(register, "register");
     }
 }
