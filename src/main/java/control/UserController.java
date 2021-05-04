@@ -1,7 +1,6 @@
 package control;
 
 import connection.HibernateConnection;
-import entity.Card;
 import entity.User;
 import org.hibernate.Session;
 
