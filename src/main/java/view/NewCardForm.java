@@ -10,7 +10,6 @@ import ui.ButtonStyle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Set;
 
 public class NewCardForm extends JFrame {
     private JLabel questLabel;
