@@ -3,7 +3,7 @@ package view;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import control.CardControl;
+import control.CardController;
 import entity.Card;
 import ui.ButtonStyle;
 
@@ -18,10 +18,10 @@ public class NewCardForm extends JFrame {
     private JPanel mainPanel;
     private JButton saveButton;
 
-    private final CardControl cardControl;
+    private final CardController cardController;
 
     public NewCardForm() {
-        cardControl = new CardControl();
+        cardController = new CardController();
 
         this.setTitle("Новая карточка");
         this.setContentPane(mainPanel);
@@ -39,7 +39,7 @@ public class NewCardForm extends JFrame {
         card.setQuestion(questText.getText());
         card.setAnswer(answerPane.getText());
         // TODO card set users
-        cardControl.addCard(card);
+        cardController.addCard(card);
     }
 
     {

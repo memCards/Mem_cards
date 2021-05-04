@@ -4,8 +4,6 @@ import connection.HibernateConnection;
 import entity.User;
 import org.hibernate.Session;
 
-import java.sql.SQLException;
-
 public class UserController {
 
     public void addUser(User user) {
@@ -24,7 +22,7 @@ public class UserController {
         }
     }
 
-    public User getUserByEmail(String email) throws SQLException {
+    public User getUserByEmail(String email) {
         Session session = null;
         User user = null;
         try {

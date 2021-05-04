@@ -5,10 +5,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Password {
+    private Password() {}
+
     public static String getPasswordHash(String password) {
         String passwordHash = password;
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(password.getBytes());
             byte[] digest = md.digest();
             passwordHash = DatatypeConverter

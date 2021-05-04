@@ -7,8 +7,6 @@ import ui.CustomButtonStyle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 public class AuthForm extends JPanel{
@@ -102,15 +100,11 @@ public class AuthForm extends JPanel{
 
         loginButton.addActionListener(e -> {
             UserController userController = new UserController();
-            try {
-                User user = userController.getUserByEmail(getEmail());
-                if (Password.checkPassword(getPassword(), user.getPassword())) {
-                    System.out.println("авторизован");
-                } else {
-                    System.out.println("неверный пароль");
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            User user = userController.getUserByEmail(getEmail());
+            if (Password.checkPassword(getPassword(), user.getPassword())) {
+                System.out.println("авторизован");
+            } else {
+                System.out.println("неверный пароль");
             }
 
         });
