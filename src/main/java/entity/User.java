@@ -2,11 +2,15 @@ package entity;
 
 import password.Password;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class User {
     private String email;
     private String firstName;
     private String lastName;
     private String password;
+    private Set<Card> cards = new HashSet<>();
 
     public User() {
     }
@@ -49,4 +53,12 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Set<Card> getCards() { return cards; }
+
+    public void setCards(Set<Card> cards) { this.cards = cards; }
+
+    public void addCard(Card card) { cards.add(card); }
+
+    public void removeCard(Card card) { cards.remove(card); }
 }
