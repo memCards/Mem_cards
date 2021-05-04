@@ -62,7 +62,7 @@ public class User {
     public void addCard(Card card) { cards.add(card); }
 
     public void removeCard(Card card) { cards.remove(card); }
-
+  
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

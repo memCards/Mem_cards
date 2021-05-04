@@ -20,18 +20,27 @@ public class NewCardForm extends JFrame {
     private JPanel mainPanel;
     private JButton saveButton;
 
-    private final CardController cardController;
+    private final CardsForm cardsForm;
+    private final transient User user;
+    private final transient CardController cardController;
 
-    public NewCardForm() {
+    public NewCardForm(User user, CardsForm cardsForm) {
+        this.cardsForm = cardsForm;
+        this.user = user;
         cardController = new CardController();
 
         this.setTitle("Новая карточка");
         this.setContentPane(mainPanel);
+        initButton();
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.pack();
+    }
+
+    private void initButton() {
         saveButton.setUI(new ButtonStyle());
         saveButton.setBackground(new Color(0xF7A962E0, true));
         saveButton.setForeground(Color.white);
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.pack();
+
         saveButton.addActionListener(e -> pushCard());
     }
 
@@ -40,8 +49,9 @@ public class NewCardForm extends JFrame {
         card.setId((long) 0);
         card.setQuestion(questText.getText());
         card.setAnswer(answerPane.getText());
-        // TODO add user to card
+        card.addUser(user);
         cardController.addCard(card);
+        cardsForm.updateList(card);
     }
 
     {
