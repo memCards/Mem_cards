@@ -4,16 +4,24 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name = "entity.User" table = "users">
+    <class name="entity.User" table="users">
 
-        <meta attribute = "class-description">
+        <meta attribute="class-description">
             This class contains the user detail.
         </meta>
 
         <id name="email" type="string" column="email"/>
-        <property name = "firstName" column = "first_name" type = "string"/>
-        <property name = "lastName" column = "last_name" type = "string"/>
-        <property name = "password" column = "password" type = "string"/>
+        <property name="firstName" column="first_name" type="string"/>
+        <property name="lastName" column="last_name" type="string"/>
+        <property name="password" column="password" type="string"/>
 
+        <set name="cards" table="user_cards">
+            <key>
+                <column name="user_id" not-null="true"/>
+            </key>
+            <many-to-many entity-name="entity.Card">
+                <column name="card_id" not-null="true"/>
+            </many-to-many>
+        </set>
     </class>
 </hibernate-mapping>

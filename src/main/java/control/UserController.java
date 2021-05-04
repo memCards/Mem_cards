@@ -1,32 +1,45 @@
 package control;
 
 import connection.HibernateConnection;
+import entity.Card;
 import entity.User;
 import org.hibernate.Session;
 
 public class UserController {
 
     public void addUser(User user) {
-        Session session = null;
-        try {
-            session = HibernateConnection.getSessionFactory().openSession();
+        try (Session session = HibernateConnection.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
+        }
+    }
+
+    private void updateUser(User user) {
+        try (Session session = HibernateConnection.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            session.update(user);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteUser(User user) {
+        try (Session session = HibernateConnection.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            session.delete(user);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public User getUserByEmail(String email) {
-        Session session = null;
         User user = null;
-        try {
-            session = HibernateConnection.getSessionFactory().openSession();
+        try (Session session = HibernateConnection.getSessionFactory().openSession()) {
             user = session.load(User.class, email);
         } catch (Exception e) {
             e.printStackTrace();

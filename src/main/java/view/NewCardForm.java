@@ -5,10 +5,12 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import control.CardController;
 import entity.Card;
+import entity.User;
 import ui.ButtonStyle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Set;
 
 public class NewCardForm extends JFrame {
     private JLabel questLabel;
@@ -38,7 +40,7 @@ public class NewCardForm extends JFrame {
         card.setId((long) 0);
         card.setQuestion(questText.getText());
         card.setAnswer(answerPane.getText());
-        // TODO card set users
+        // TODO add user to card
         cardController.addCard(card);
     }
 
