@@ -1,6 +1,6 @@
 package main;
 
-import view.LoginForm;
+import view.entry.LoginForm;
 import view.MainForm;
 
 public class Main {

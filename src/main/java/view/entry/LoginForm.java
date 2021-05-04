@@ -1,7 +1,8 @@
-package view;
+package view.entry;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import view.FrameLocation;
 
 import javax.swing.*;
 import java.awt.*;
