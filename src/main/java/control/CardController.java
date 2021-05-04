@@ -4,7 +4,7 @@ import entity.Card;
 import org.hibernate.Session;
 import connection.HibernateConnection;
 
-public class CardControl {
+public class CardController {
     public void addCard(Card card) {
         try (Session session = HibernateConnection.getSessionFactory().openSession()) {
             session.beginTransaction();

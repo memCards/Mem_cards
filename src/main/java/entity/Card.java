@@ -7,9 +7,10 @@ public class Card {
     private Long id;
     private String question;
     private String answer;
-    private Set users = new HashSet();
+    private Set<User> users = new HashSet<>();
 
     public Card() {
+        // default constructor for Hibernate
     }
 
     public Long getId() {
@@ -36,11 +37,11 @@ public class Card {
         this.answer = answer;
     }
 
-    public Set getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Set users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 
