@@ -38,8 +38,7 @@ public class UserController {
 
     public User getUserByEmail(String email) {
         User user = null;
-        Session session = HibernateConnection.getSessionFactory().openSession();
-        try {
+        try (Session session = HibernateConnection.getSessionFactory().openSession()) {
             user = session.load(User.class, email);
         } catch (Exception e) {
             e.printStackTrace();
