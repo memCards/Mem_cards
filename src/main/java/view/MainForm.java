@@ -39,8 +39,8 @@ public class MainForm extends JFrame {
     private void initCurrentPanel() {
         currentPanel = new JPanel(new CardLayout());
 
-        CardsForm cardsForm = new CardsForm(user);
-        currentPanel.add(cardsForm, CARDS);
+        CardsListForm cardsListForm = new CardsListForm(user);
+        currentPanel.add(cardsListForm, CARDS);
     }
 
     private void setButtonIcons(JButton button) {
