@@ -6,51 +6,41 @@ import com.intellij.uiDesigner.core.Spacer;
 import control.CardController;
 import entity.Card;
 import entity.User;
-import ui.ButtonStyle;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class NewCardForm extends JFrame {
+public class CardForm extends JFrame {
     private JLabel questLabel;
     private JTextField questText;
     private JLabel answerLabel;
     private JTextPane answerPane;
     private JPanel mainPanel;
-    private JButton saveButton;
 
     private final CardsListForm cardsListForm;
     private final transient User user;
+    private final transient Card card;
     private final transient CardController cardController;
 
-    public NewCardForm(User user, CardsListForm cardsListForm) {
+
+    public CardForm(User user, CardsListForm cardsListForm, Card card) {
         this.cardsListForm = cardsListForm;
         this.user = user;
+        this.card = card;
         cardController = new CardController();
 
-        this.setTitle("Новая карточка");
+        this.setTitle("Карточка");
         this.setContentPane(mainPanel);
-        initButton();
+        initCardInfo();
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.pack();
+        FrameLocation.setFrameLocation(this);
+        setVisible(true);
     }
 
-    private void initButton() {
-        saveButton.setUI(new ButtonStyle());
-        saveButton.setBackground(new Color(0xF7A962E0, true));
-        saveButton.setForeground(Color.white);
-
-        saveButton.addActionListener(e -> pushCard());
-    }
-
-    private void pushCard() {
-        Card card = new Card();
-        card.setId((long) 0);
-        card.setQuestion(questText.getText());
-        card.setAnswer(answerPane.getText());
-        card.addUser(user);
-        cardController.addCard(card);
-        cardsListForm.updateList();
+    private void initCardInfo() {
+        questText.setText(card.getQuestion());
+        answerPane.setText(card.getAnswer());
     }
 
     {
@@ -69,7 +59,7 @@ public class NewCardForm extends JFrame {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(5, 3, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(4, 3, new Insets(0, 0, 0, 0), -1, -1));
         questLabel = new JLabel();
         questLabel.setText("Вопрос");
         mainPanel.add(questLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -78,17 +68,16 @@ public class NewCardForm extends JFrame {
         final Spacer spacer2 = new Spacer();
         mainPanel.add(spacer2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         questText = new JTextField();
+        questText.setEditable(false);
         mainPanel.add(questText, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         answerLabel = new JLabel();
         answerLabel.setText("Ответ");
         mainPanel.add(answerLabel, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         answerPane = new JTextPane();
+        answerPane.setEditable(false);
         answerPane.putClientProperty("charset", "");
         answerPane.putClientProperty("html.disable", Boolean.FALSE);
         mainPanel.add(answerPane, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(300, 100), null, 0, false));
-        saveButton = new JButton();
-        saveButton.setText("Сохранить");
-        mainPanel.add(saveButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -97,4 +86,5 @@ public class NewCardForm extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
+
 }

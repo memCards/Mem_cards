@@ -2,28 +2,32 @@ package view;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import control.UserController;
 import entity.Card;
 import entity.User;
 import ui.ButtonStyle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Set;
 
-public class CardsForm extends JPanel {
+public class CardsListForm extends JPanel {
     private JPanel mainPanel;
     private JList<Card> cardsList;
     private JButton newCardButton;
     private JPanel listPanel;
     private JFrame newCardForm = null;
-    private final transient User user;
+    private transient User user;
 
-    public CardsForm(User user) {
+    public CardsListForm(User user) {
         this.user = user;
         $$$setupUI$$$();
         initButtons();
         setButtonStyle();
         initListRenderer();
+        initListListener();
         this.add(mainPanel);
         this.setVisible(true);
     }
@@ -39,8 +43,25 @@ public class CardsForm extends JPanel {
         cardsList = new JList<>(listModel);
     }
 
-    public void updateList(Card card) {
-        ((DefaultListModel<Card>) cardsList.getModel()).addElement(card);
+    public void updateList() {
+        UserController userController = new UserController();
+        user = userController.getUserByEmail(user.getEmail());
+        ((DefaultListModel<Card>) cardsList.getModel()).removeAllElements();
+        Set<Card> cards = user.getCards();
+        cards.forEach(((DefaultListModel<Card>) cardsList.getModel())::addElement);
+    }
+
+    private void initListListener() {
+        CardsListForm cardsListForm = this;
+        cardsList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JList<Card> list = (JList<Card>) e.getSource();
+                if (e.getClickCount() == 2) {
+                    new CardForm(user, cardsListForm, list.getSelectedValue());
+                }
+            }
+        });
     }
 
     private void initListRenderer() {
