@@ -2,6 +2,7 @@ package view;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import entity.Card;
 import entity.User;
 import ui.ButtonStyle;
 
@@ -9,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Set;
 
 public class MainForm extends JFrame {
     private static final String CARDS = "cardsForm";
@@ -25,6 +27,7 @@ public class MainForm extends JFrame {
         this.setTitle("Memory cards");
         this.setContentPane(mainPanel);
         addCardsButtonListener();
+        learnButtonListener();
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
         setButtonStyle();
@@ -73,6 +76,13 @@ public class MainForm extends JFrame {
 
     private void addCardsButtonListener() {
         cardsButton.addActionListener(event -> ((CardLayout) currentPanel.getLayout()).show(currentPanel, CARDS));
+    }
+
+    private void learnButtonListener() {
+        learnButton.addActionListener(event -> {
+            System.out.println("Quiz!");
+            QuizForm quizForm = new QuizForm(user);
+        });
     }
 
     /**
