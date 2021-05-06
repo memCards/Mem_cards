@@ -80,7 +80,6 @@ public class MainForm extends JFrame {
 
     private void learnButtonListener() {
         learnButton.addActionListener(event -> {
-            System.out.println("Quiz!");
             QuizForm quizForm = new QuizForm(user);
         });
     }
