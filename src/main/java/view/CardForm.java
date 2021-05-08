@@ -6,9 +6,12 @@ import com.intellij.uiDesigner.core.Spacer;
 import control.CardController;
 import entity.Card;
 import entity.User;
+import ui.ButtonStyle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CardForm extends JFrame {
     private JLabel questLabel;
@@ -16,6 +19,8 @@ public class CardForm extends JFrame {
     private JLabel answerLabel;
     private JTextPane answerPane;
     private JPanel mainPanel;
+    private JButton editButton;
+    private JButton deleteButton;
 
     private final CardsListForm cardsListForm;
     private final transient User user;
@@ -36,11 +41,42 @@ public class CardForm extends JFrame {
         this.pack();
         FrameLocation.setFrameLocation(this);
         setVisible(true);
+        this.setPreferredSize(new Dimension(300, 350));
+        this.setMaximumSize(new Dimension(300, 350));
+        this.setMinimumSize(new Dimension(300, 350));
+
+        setupButtons();
     }
 
     private void initCardInfo() {
         questText.setText(card.getQuestion());
         answerPane.setText(card.getAnswer());
+    }
+
+    private void setupButtons() {
+        editButton.setUI(new ButtonStyle());
+        editButton.setBackground(new Color(0xF7A962E0, true));
+        editButton.setForeground(Color.WHITE);
+        editButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                new EditForm(card, cardController);
+                dispose();
+            }
+        });
+        deleteButton.setUI(new ButtonStyle());
+        deleteButton.setBackground(new Color(0xF7A962E0, true));
+        deleteButton.setForeground(Color.WHITE);
+        deleteButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int result = JOptionPane.showConfirmDialog(mainPanel, "Вы уверены, что хотите удалить карточку?");
+                if (result == JOptionPane.YES_OPTION) {
+                    cardController.deleteCard(card);
+                    dispose();
+                }
+            }
+        });
     }
 
     {
