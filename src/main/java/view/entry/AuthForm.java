@@ -3,6 +3,7 @@ package view.entry;
 import control.UserController;
 import entity.User;
 import password.Password;
+import view.ErrorPane;
 import view.MainForm;
 
 import javax.swing.*;
@@ -50,14 +51,13 @@ public class AuthForm extends EntryForm {
         loginButton.addActionListener(e -> {
             UserController userController = new UserController();
             User user = userController.getUserByEmail(getEmail());
-            if (Password.checkPassword(getPassword(), user.getPassword())) {
-                new MainForm(user);
-                System.out.println("авторизован");
-                loginForm.dispose();
+            if ((user == null) || (!Password.checkPassword(getPassword(), user.getPassword()))) {
+                new ErrorPane().displayError("Неверный логин или пароль.",
+                        "Ошибка авторизации");
             } else {
-                System.out.println("неверный пароль");
+                new MainForm(user);
+                loginForm.dispose();
             }
-
         });
     }
 }

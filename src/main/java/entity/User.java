@@ -55,14 +55,22 @@ public class User {
         this.password = password;
     }
 
-    public Set<Card> getCards() { return cards; }
+    public Set<Card> getCards() {
+        return cards;
+    }
 
-    public void setCards(Set<Card> cards) { this.cards = cards; }
+    public void setCards(Set<Card> cards) {
+        this.cards = cards;
+    }
 
-    public void addCard(Card card) { cards.add(card); }
+    public void addCard(Card card) {
+        cards.add(card);
+    }
 
-    public void removeCard(Card card) { cards.remove(card); }
-  
+    public void removeCard(Card card) {
+        cards.remove(card);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
