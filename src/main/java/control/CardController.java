@@ -1,8 +1,9 @@
 package control;
 
+import connection.HibernateConnection;
 import entity.Card;
 import org.hibernate.Session;
-import connection.HibernateConnection;
+import view.ErrorPane;
 
 public class CardController {
     public void addCard(Card card) {
@@ -11,7 +12,7 @@ public class CardController {
             session.save(card);
             session.getTransaction().commit();
         } catch (Exception ex) {
-            // TODO error form
+            new ErrorPane().displayError(ex.getLocalizedMessage(), "Exception");
         }
     }
 
@@ -21,7 +22,7 @@ public class CardController {
             session.update(card);
             session.getTransaction().commit();
         } catch (Exception ex) {
-            // TODO error form
+            new ErrorPane().displayError(ex.getLocalizedMessage(), "Exception");
         }
     }
 
@@ -31,7 +32,7 @@ public class CardController {
             session.delete(card);
             session.getTransaction().commit();
         } catch (Exception ex) {
-            // TODO error form
+            new ErrorPane().displayError(ex.getLocalizedMessage(), "Exception");
         }
     }
 
@@ -40,7 +41,7 @@ public class CardController {
         try (Session session = HibernateConnection.getSessionFactory().openSession()) {
             card = session.load(Card.class, cardId);
         } catch (Exception ex) {
-            // TODO error form
+            new ErrorPane().displayError(ex.getLocalizedMessage(), "Exception");
         }
         return card;
     }

@@ -2,7 +2,6 @@ package view;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import entity.Card;
 import entity.User;
 import ui.ButtonStyle;
 
@@ -10,7 +9,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Set;
 
 public class MainForm extends JFrame {
     private static final String CARDS = "cardsForm";
@@ -79,9 +77,7 @@ public class MainForm extends JFrame {
     }
 
     private void learnButtonListener() {
-        learnButton.addActionListener(event -> {
-            QuizForm quizForm = new QuizForm(user);
-        });
+        learnButton.addActionListener(event -> new QuizForm(user));
     }
 
     /**

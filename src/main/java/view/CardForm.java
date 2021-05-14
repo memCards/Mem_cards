@@ -5,7 +5,6 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import control.CardController;
 import entity.Card;
-import entity.User;
 import ui.ButtonStyle;
 
 import javax.swing.*;
@@ -23,14 +22,12 @@ public class CardForm extends JFrame {
     private JButton deleteButton;
 
     private final CardsListForm cardsListForm;
-    private final transient User user;
     private final transient Card card;
     private final transient CardController cardController;
 
 
-    public CardForm(User user, CardsListForm cardsListForm, Card card) {
+    public CardForm(CardsListForm cardsListForm, Card card) {
         this.cardsListForm = cardsListForm;
-        this.user = user;
         this.card = card;
         cardController = new CardController();
 
@@ -60,7 +57,7 @@ public class CardForm extends JFrame {
         editButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                new EditForm(card, cardController);
+                new EditForm(card, cardController, cardsListForm);
                 dispose();
             }
         });
@@ -73,6 +70,7 @@ public class CardForm extends JFrame {
                 int result = JOptionPane.showConfirmDialog(mainPanel, "Вы уверены, что хотите удалить карточку?");
                 if (result == JOptionPane.YES_OPTION) {
                     cardController.deleteCard(card);
+                    cardsListForm.updateList();
                     dispose();
                 }
             }
@@ -95,7 +93,7 @@ public class CardForm extends JFrame {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(4, 3, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(6, 3, new Insets(0, 0, 0, 0), -1, -1));
         questLabel = new JLabel();
         questLabel.setText("Вопрос");
         mainPanel.add(questLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -114,6 +112,14 @@ public class CardForm extends JFrame {
         answerPane.putClientProperty("charset", "");
         answerPane.putClientProperty("html.disable", Boolean.FALSE);
         mainPanel.add(answerPane, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(300, 100), null, 0, false));
+        editButton = new JButton();
+        editButton.setBackground(new Color(-11260055));
+        editButton.setText("Редактировать");
+        mainPanel.add(editButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        deleteButton = new JButton();
+        deleteButton.setBackground(new Color(-8708813));
+        deleteButton.setText("Удалить");
+        mainPanel.add(deleteButton, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

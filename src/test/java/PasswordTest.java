@@ -7,12 +7,12 @@ import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class PasswordTest {
+class PasswordTest {
     @Test
     void checkPasswordLength() {
-        assertEquals(Password.getPasswordHash("123").length(), 64);
-        assertEquals(Password.getPasswordHash("password").length(), 64);
-        assertEquals(Password.getPasswordHash("anotherLONGpassword").length(), 64);
+        assertEquals(64, Password.getPasswordHash("123").length());
+        assertEquals(64, Password.getPasswordHash("password").length());
+        assertEquals(64, Password.getPasswordHash("anotherLONGpassword").length());
     }
 
     @Test

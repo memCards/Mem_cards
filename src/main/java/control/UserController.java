@@ -3,6 +3,9 @@ package control;
 import connection.HibernateConnection;
 import entity.User;
 import org.hibernate.Session;
+import view.ErrorPane;
+
+import javax.persistence.PersistenceException;
 
 public class UserController {
 
@@ -11,6 +14,10 @@ public class UserController {
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
+        } catch (PersistenceException e) {
+            new ErrorPane().displayError("Пользователь с таким email уже существует",
+                    "Ошибка регистрации");
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

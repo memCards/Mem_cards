@@ -2,6 +2,7 @@ package view.entry;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import ui.ButtonStyle;
 import view.FrameLocation;
 
 import javax.swing.*;
@@ -27,6 +28,9 @@ public class LoginForm extends JFrame {
     }
 
     private void initButtons() {
+        backButton.setUI(new ButtonStyle());
+        backButton.setBackground(new Color(0xF7A962E0, true));
+        backButton.setForeground(Color.WHITE);
         backButton.addActionListener(e -> {
             if (currentPanel == CurrentPanel.AUTH) {
                 currentPanel = CurrentPanel.REGISTER;
@@ -55,6 +59,11 @@ public class LoginForm extends JFrame {
         createUIComponents();
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setBackground(new Color(-1516824));
+        mainPanel.setFocusable(true);
+        mainPanel.setForeground(new Color(-1516824));
+        loginPanel.setBackground(new Color(-1516824));
+        loginPanel.setForeground(new Color(-1516824));
         mainPanel.add(loginPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         backButton = new JButton();
         backButton.setText("Зарегистрироваться");

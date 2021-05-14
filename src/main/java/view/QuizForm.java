@@ -1,4 +1,5 @@
 package view;
+
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -8,14 +9,14 @@ import entity.User;
 import ui.ButtonStyle;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class QuizForm extends JFrame {
-    private  transient User user;
+    private transient User user;
     private JPanel mainPanel;
     private JLabel questionLabel;
     private JTextField questionTxt;
@@ -26,7 +27,7 @@ public class QuizForm extends JFrame {
 
     private JButton correctAnsButton;
     private JTextField correctAnsField;
-    private List<Card> quizList;
+    private transient List<Card> quizList;
     private int i = 0;
     private boolean checkCorrect = false;
 
@@ -48,9 +49,7 @@ public class QuizForm extends JFrame {
     }
 
     private void exitButtonListener() {
-        exitButton.addActionListener(event -> {
-            this.setVisible(false);
-        });
+        exitButton.addActionListener(event -> this.setVisible(false));
     }
 
     private void correctAnsButtonListener() {
@@ -70,7 +69,7 @@ public class QuizForm extends JFrame {
                 this.setVisible(false);
                 JOptionPane.showMessageDialog(mainPanel,
                         "Вы прошли викторину!");
-            } else if (answer.equals(correctAnswer) || checkCorrect == true) {
+            } else if (answer.equals(correctAnswer) || checkCorrect) {
                 correctAnsField.setText("");
                 checkCorrect = false;
                 answerTxt.setText("");
@@ -84,23 +83,7 @@ public class QuizForm extends JFrame {
     }
 
     private void initQuizList() {
-        Set<Card> cards = user.getCards();
-        if (cards.isEmpty()) {
-            this.setVisible(false);
-            JOptionPane.showMessageDialog(mainPanel,
-                    "У Вас еще нет карточек!");
-        } else {
-            quizList = new ArrayList<>();
-            quizList.addAll(cards);
-            Collections.shuffle(quizList);
-            quiz(i);
-        }
-    }
-
-    public void updateQuizList() {
-        UserController userController = new UserController();
-        user = userController.getUserByEmail(user.getEmail());
-        quizList.clear();
+        user = new UserController().getUserByEmail(user.getEmail());
         Set<Card> cards = user.getCards();
         if (cards.isEmpty()) {
             this.setVisible(false);
@@ -145,51 +128,51 @@ public class QuizForm extends JFrame {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(5, 12, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(5, 6, new Insets(0, 0, 0, 0), -1, -1));
         answerTxt = new JTextField();
-        mainPanel.add(answerTxt, new GridConstraints(2, 8, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        mainPanel.add(answerTxt, new GridConstraints(2, 3, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer1 = new Spacer();
-        mainPanel.add(spacer1, new GridConstraints(2, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mainPanel.add(spacer1, new GridConstraints(2, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         exitButton = new JButton();
         exitButton.setText("Выход");
-        mainPanel.add(exitButton, new GridConstraints(4, 8, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(exitButton, new GridConstraints(4, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         questionTxt = new JTextField();
         questionTxt.setEditable(false);
         questionTxt.setEnabled(true);
         Font questionTxtFont = this.$$$getFont$$$("Arial", -1, 12, questionTxt.getFont());
         if (questionTxtFont != null) questionTxt.setFont(questionTxtFont);
-        mainPanel.add(questionTxt, new GridConstraints(1, 8, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        mainPanel.add(questionTxt, new GridConstraints(1, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         questionLabel = new JLabel();
         Font questionLabelFont = this.$$$getFont$$$(null, -1, 14, questionLabel.getFont());
         if (questionLabelFont != null) questionLabel.setFont(questionLabelFont);
         questionLabel.setText("Вопрос");
-        mainPanel.add(questionLabel, new GridConstraints(1, 1, 1, 6, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(questionLabel, new GridConstraints(1, 1, 1, 2, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         answerField = new JLabel();
         Font answerFieldFont = this.$$$getFont$$$(null, -1, 14, answerField.getFont());
         if (answerFieldFont != null) answerField.setFont(answerFieldFont);
         answerField.setText("Ваш ответ:");
-        mainPanel.add(answerField, new GridConstraints(2, 1, 1, 6, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(answerField, new GridConstraints(2, 1, 1, 2, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         Font label1Font = this.$$$getFont$$$("Arial", Font.BOLD, 18, label1.getFont());
         if (label1Font != null) label1.setFont(label1Font);
         label1.setForeground(new Color(-12449917));
         label1.setText("Викторина");
-        mainPanel.add(label1, new GridConstraints(0, 1, 1, 10, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(label1, new GridConstraints(0, 1, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         nextQuestionButton = new JButton();
         nextQuestionButton.setText("Следующий вопрос");
-        mainPanel.add(nextQuestionButton, new GridConstraints(4, 10, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(nextQuestionButton, new GridConstraints(4, 4, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         correctAnsField = new JTextField();
         correctAnsField.setEditable(false);
         Font correctAnsFieldFont = this.$$$getFont$$$("Arial", -1, 12, correctAnsField.getFont());
         if (correctAnsFieldFont != null) correctAnsField.setFont(correctAnsFieldFont);
-        mainPanel.add(correctAnsField, new GridConstraints(3, 8, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        mainPanel.add(correctAnsField, new GridConstraints(3, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         correctAnsButton = new JButton();
         correctAnsButton.setText("Правильный ответ");
-        mainPanel.add(correctAnsButton, new GridConstraints(4, 4, 1, 3, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(correctAnsButton, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         mainPanel.add(spacer2, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
-        mainPanel.add(spacer3, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mainPanel.add(spacer3, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
     }
 
     /**
@@ -208,10 +191,7 @@ public class QuizForm extends JFrame {
                 resultName = currentFont.getName();
             }
         }
-        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
-        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
-        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
-        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**

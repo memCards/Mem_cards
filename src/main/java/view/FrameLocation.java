@@ -4,7 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FrameLocation {
-    private FrameLocation(){}
+    private FrameLocation() {
+    }
 
     public static void setFrameLocation(JFrame frame) {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();

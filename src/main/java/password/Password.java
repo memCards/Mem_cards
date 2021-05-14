@@ -5,7 +5,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Password {
-    private Password() {}
+    private Password() {
+    }
 
     public static String getPasswordHash(String password) {
         String passwordHash = password;

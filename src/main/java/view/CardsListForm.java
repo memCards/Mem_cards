@@ -8,12 +8,9 @@ import entity.User;
 import ui.ButtonStyle;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Locale;
 import java.util.Set;
 
 public class CardsListForm extends JPanel {
@@ -61,7 +58,7 @@ public class CardsListForm extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 JList<Card> list = (JList<Card>) e.getSource();
                 if (e.getClickCount() == 2) {
-                    new CardForm(user, cardsListForm, list.getSelectedValue());
+                    new CardForm(cardsListForm, list.getSelectedValue());
                 }
             }
         });
@@ -147,10 +144,7 @@ public class CardsListForm extends JPanel {
                 resultName = currentFont.getName();
             }
         }
-        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
-        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
-        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
-        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**
