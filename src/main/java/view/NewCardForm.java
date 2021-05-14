@@ -18,10 +18,12 @@ public class NewCardForm extends JFrame {
     private JTextPane answerPane;
     private JPanel mainPanel;
     private JButton saveButton;
+    private JButton categoryButton;
 
     private final CardsListForm cardsListForm;
     private final transient User user;
     private final transient CardController cardController;
+    private final transient CategoryForm categoryForm = new CategoryForm();
 
     public NewCardForm(User user, CardsListForm cardsListForm) {
         this.cardsListForm = cardsListForm;
@@ -39,8 +41,15 @@ public class NewCardForm extends JFrame {
         saveButton.setUI(new ButtonStyle());
         saveButton.setBackground(new Color(0xF7A962E0, true));
         saveButton.setForeground(Color.white);
-
         saveButton.addActionListener(e -> pushCard());
+
+        categoryButton.setUI(new ButtonStyle());
+        categoryButton.setBackground(new Color(0xF7A962E0, true));
+        categoryButton.setForeground(Color.white);
+        final JPopupMenu menu = new JPopupMenu();
+        menu.add(categoryForm);
+        categoryButton.addActionListener(e -> menu.show(this, categoryButton.getBounds().x,
+                categoryButton.getBounds().y + categoryButton.getBounds().height));
     }
 
     private void pushCard() {
@@ -49,6 +58,10 @@ public class NewCardForm extends JFrame {
         card.setQuestion(questText.getText());
         card.setAnswer(answerPane.getText());
         card.addUser(user);
+
+        //TODO: сохранить категории
+        //card.addCategories(categoryForm.getCategoties());
+
         cardController.addCard(card);
         cardsListForm.updateList();
     }
@@ -69,19 +82,11 @@ public class NewCardForm extends JFrame {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(5, 3, new Insets(0, 0, 0, 0), -1, -1));
-        questLabel = new JLabel();
-        questLabel.setText("Вопрос");
-        mainPanel.add(questLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.setLayout(new GridLayoutManager(5, 2, new Insets(0, 0, 0, 0), -1, -1));
         final Spacer spacer1 = new Spacer();
-        mainPanel.add(spacer1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        final Spacer spacer2 = new Spacer();
-        mainPanel.add(spacer2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        mainPanel.add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         questText = new JTextField();
         mainPanel.add(questText, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        answerLabel = new JLabel();
-        answerLabel.setText("Ответ");
-        mainPanel.add(answerLabel, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         answerPane = new JTextPane();
         answerPane.putClientProperty("charset", "");
         answerPane.putClientProperty("html.disable", Boolean.FALSE);
@@ -89,6 +94,21 @@ public class NewCardForm extends JFrame {
         saveButton = new JButton();
         saveButton.setText("Сохранить");
         mainPanel.add(saveButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.add(panel1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        questLabel = new JLabel();
+        questLabel.setHorizontalAlignment(2);
+        questLabel.setHorizontalTextPosition(11);
+        questLabel.setText("Вопрос");
+        panel1.add(questLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(234, 16), null, 0, false));
+        categoryButton = new JButton();
+        categoryButton.setText("Категории");
+        panel1.add(categoryButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        answerLabel = new JLabel();
+        answerLabel.setHorizontalAlignment(2);
+        answerLabel.setText("Ответ");
+        mainPanel.add(answerLabel, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -97,4 +117,5 @@ public class NewCardForm extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
+
 }

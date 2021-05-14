@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.NewCardForm">
-  <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
@@ -8,19 +8,6 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="2d3a" class="javax.swing.JLabel" binding="questLabel">
-        <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Вопрос"/>
-        </properties>
-      </component>
-      <hspacer id="b94af">
-        <constraints>
-          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </hspacer>
       <hspacer id="e8a0e">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -33,14 +20,6 @@
           </grid>
         </constraints>
         <properties/>
-      </component>
-      <component id="aa3d3" class="javax.swing.JLabel" binding="answerLabel">
-        <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Ответ"/>
-        </properties>
       </component>
       <component id="3dd96" class="javax.swing.JTextPane" binding="answerPane">
         <constraints>
@@ -60,6 +39,45 @@
         </constraints>
         <properties>
           <text value="Сохранить"/>
+        </properties>
+      </component>
+      <grid id="98a6c" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="2d3a" class="javax.swing.JLabel" binding="questLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="234" height="16"/>
+              </grid>
+            </constraints>
+            <properties>
+              <horizontalAlignment value="2"/>
+              <horizontalTextPosition value="11"/>
+              <text value="Вопрос"/>
+            </properties>
+          </component>
+          <component id="75669" class="javax.swing.JButton" binding="categoryButton">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Категории"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="aa3d3" class="javax.swing.JLabel" binding="answerLabel">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <horizontalAlignment value="2"/>
+          <text value="Ответ"/>
         </properties>
       </component>
     </children>
