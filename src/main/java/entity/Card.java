@@ -9,6 +9,7 @@ public class Card {
     private String question;
     private String answer;
     private Set<User> users = new HashSet<>();
+    private Set<Category> categories = new HashSet<>();
 
     public Card() {
         // default constructor for Hibernate
@@ -46,12 +47,28 @@ public class Card {
         this.users = users;
     }
 
-    public void addUser(User user) {
-        this.users.add(user);
+    public void addUser(User user) { this.users.add(user); }
+
+    public void removeUser(User user) { this.users.remove(user); }
+
+    public Set<Category> getCategories() {
+        return categories;
     }
 
-    public void removeUser(User user) {
-        this.users.remove(user);
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
+    }
+
+    public void removeCategory(Category category) {
+        this.categories.remove(category);
+    }
+
+    public void addCategories(Set<Category> categories) {
+        this.categories.addAll(categories);
     }
 
     @Override
