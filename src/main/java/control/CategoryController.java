@@ -28,7 +28,7 @@ public class CategoryController {
             session.update(category);
             session.getTransaction().commit();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            new ErrorPane().displayError(ex.getLocalizedMessage(), "Exception");
         }
     }
 
@@ -38,7 +38,7 @@ public class CategoryController {
             session.delete(category);
             session.getTransaction().commit();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            new ErrorPane().displayError(ex.getLocalizedMessage(), "Exception");
         }
     }
 
@@ -47,7 +47,7 @@ public class CategoryController {
         try (Session session = HibernateConnection.getSessionFactory().openSession()) {
             category = session.load(Category.class, categoryName);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            new ErrorPane().displayError(ex.getLocalizedMessage(), "Exception");
         }
         return category;
     }
@@ -58,7 +58,7 @@ public class CategoryController {
             criteria.from(Category.class);
             return session.createQuery(criteria).getResultList();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            new ErrorPane().displayError(ex.getLocalizedMessage(), "Exception");
             return new ArrayList<>();
         }
     }
