@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 public class QuizCategorySelectionForm extends JFrame {
     private transient User user;
     private JPanel mainPanel;
-    private JComboBox categoryBox;
+    private JComboBox<String> categoryBox;
     private JButton continueButton;
     private JButton exitButton;
-    private List<Long> categoryIdList;
+    private List<String> categoryNameList;
 
     public QuizCategorySelectionForm(User user) {
         this.user = user;
@@ -49,27 +49,27 @@ public class QuizCategorySelectionForm extends JFrame {
                 .stream()
                 .map(Category::getCategoryName)
                 .collect(Collectors.toList());
-        categoryIdList = categoryController.getAllCategories().stream().map(Category::getId).collect(Collectors.toList());
+        categoryNameList = categoryController.getAllCategories().stream().map(Category::getCategoryName).collect(Collectors.toList());
         for (String category : categories) categoryBox.addItem(category);
     }
 
     private void continueButtonListener() {
         continueButton.addActionListener(event -> {
             int i = categoryBox.getSelectedIndex();
-            Long selectedId = categoryIdList.get(i);
-            if (createCardsArray(selectedId).isEmpty()) {
+            String selectedCategory = categoryNameList.get(i);
+            if (createCardsArray(selectedCategory).isEmpty()) {
                 this.setVisible(false);
                 JOptionPane.showMessageDialog(mainPanel,
                         "В данной категории нет карточек");
             } else {
-                new QuizForm(user, createCardsArray(selectedId));
+                new QuizForm(user, createCardsArray(selectedCategory));
                 setVisible(false);
             }
 
         });
     }
 
-    private List<Card> createCardsArray(Long selectedId) {
+    private List<Card> createCardsArray(String selectedCategory) {
         user = new UserController().getUserByEmail(user.getEmail());
         List<Card> quizList = new ArrayList<>();
         Set<Card> cards = user.getCards();
@@ -81,7 +81,7 @@ public class QuizCategorySelectionForm extends JFrame {
             for (Card card : cards) {
                 Set<Category> categiryList = card.getCategories();
                 for (Category category : categiryList) {
-                    if (selectedId == category.getId()) {
+                    if (selectedCategory.equals(category.getCategoryName())) {
                         quizList.add(card);
                         break;
                     }

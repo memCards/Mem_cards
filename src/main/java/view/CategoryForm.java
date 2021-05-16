@@ -8,6 +8,10 @@ import entity.Category;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +21,8 @@ public class CategoryForm extends JPanel {
     private JPanel listPanel;
     private JScrollPane scrollPane;
     private JPanel mainPanel;
+    private JButton newCategoryButton;
+    private JTextField newCategoryField;
     private final List<JCheckBox> checkBoxList = new ArrayList<>();
 
     public CategoryForm() {
@@ -24,6 +30,8 @@ public class CategoryForm extends JPanel {
         initList();
         this.add(mainPanel);
         this.setVisible(true);
+        initButtons();
+        initFields();
     }
 
     public List<JCheckBox> getCheckBoxList() {
@@ -61,10 +69,48 @@ public class CategoryForm extends JPanel {
         List<Category> categories = categoryController.getAllCategories();
 
         categories.forEach(category -> {
-            JCheckBox checkBox = new JCheckBox(category.getCategoryName());
-            listPanel.add(checkBox);
-            checkBoxList.add(checkBox);
+            addCategoryBox(category);
         });
+    }
+
+    private void initButtons() {
+        newCategoryButton.setBackground(new Color(0xF7A962E0, true));
+        newCategoryButton.setForeground(Color.white);
+        newCategoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                newCategoryButton.setVisible(false);
+                newCategoryField.setVisible(true);
+                newCategoryField.requestFocus();
+                mainPanel.updateUI();
+            }
+        });
+    }
+
+    private void initFields() {
+        newCategoryField.setVisible(false);
+        newCategoryField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    CategoryController categoryController = new CategoryController();
+                    Category category = new Category();
+                    category.setCategoryName(newCategoryField.getText());
+                    categoryController.addCategory(category);
+                    newCategoryButton.setVisible(true);
+                    newCategoryField.setText("");
+                    newCategoryField.setVisible(false);
+                    addCategoryBox(category);
+                    mainPanel.updateUI();
+                }
+            }
+        });
+    }
+
+    private void addCategoryBox(Category category) {
+        JCheckBox checkBox = new JCheckBox(category.getCategoryName());
+        listPanel.add(checkBox);
+        checkBoxList.add(checkBox);
     }
 
     /**
@@ -77,18 +123,25 @@ public class CategoryForm extends JPanel {
     private void $$$setupUI$$$() {
         createUIComponents();
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.setAutoscrolls(true);
         scrollPane = new JScrollPane();
         scrollPane.setAutoscrolls(true);
         scrollPane.setMaximumSize(new Dimension(200, 40));
         scrollPane.setVerifyInputWhenFocusTarget(true);
         scrollPane.setVerticalScrollBarPolicy(20);
-        mainPanel.add(scrollPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        mainPanel.add(scrollPane, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         listPanel.setAutoscrolls(true);
         listPanel.setInheritsPopupMenu(false);
         listPanel.setMaximumSize(new Dimension(-1, -1));
         scrollPane.setViewportView(listPanel);
+        newCategoryButton = new JButton();
+        newCategoryButton.setText("Новая категория");
+        mainPanel.add(newCategoryButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        newCategoryField = new JTextField();
+        newCategoryField.setEditable(true);
+        newCategoryField.setText("");
+        mainPanel.add(newCategoryField, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(140, -1), null, 0, false));
     }
 
     /**

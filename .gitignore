@@ -2,3 +2,10 @@
 /target/
 /.idea/
 /src/test/resources/hibernate.properties
+src/main/resources/hibernate.cfg.xml
+.settings/
+Mem_cards.iml
+.project
+.classpath
+.github/workflows/build.yml
+.github/workflows/build.yml

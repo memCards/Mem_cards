@@ -3,9 +3,7 @@ package view;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import control.UserController;
 import entity.Card;
-import entity.Category;
 import entity.User;
 import ui.ButtonStyle;
 
@@ -17,7 +15,6 @@ import java.util.*;
 import java.util.List;
 
 public class QuizForm extends JFrame {
-    private transient User user;
     private JPanel mainPanel;
     private JLabel questionLabel;
     private JTextField questionTxt;
@@ -33,7 +30,6 @@ public class QuizForm extends JFrame {
     private boolean checkCorrect = false;
 
     public QuizForm(User user, List<Card> quizList) {
-        this.user = user;
         this.quizList = quizList;
         $$$setupUI$$$();
         this.setTitle("Quiz");
@@ -67,11 +63,13 @@ public class QuizForm extends JFrame {
             answer = answer.replaceAll("\\s+", "").toUpperCase();
             String correctAnswer = quizList.get(i).getAnswer();
             correctAnswer = correctAnswer.replaceAll("\\s+", "").toUpperCase();
-            if (i == quizList.size() - 1) {
-                this.setVisible(false);
-                JOptionPane.showMessageDialog(mainPanel,
-                        "Вы прошли викторину!");
-            } else if (answer.equals(correctAnswer) || checkCorrect) {
+            if (answer.equals(correctAnswer) || checkCorrect) {
+                if (i == quizList.size() - 1) {
+                    this.setVisible(false);
+                    JOptionPane.showMessageDialog(mainPanel,
+                            "Вы прошли викторину!");
+                    return;
+                }
                 correctAnsField.setText("");
                 checkCorrect = false;
                 answerTxt.setText("");

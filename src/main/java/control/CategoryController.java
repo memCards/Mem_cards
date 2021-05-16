@@ -2,6 +2,8 @@ package control;
 
 import connection.HibernateConnection;
 import entity.Category;
+import view.ErrorPane;
+
 import org.hibernate.Session;
 
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,7 +17,8 @@ public class CategoryController {
             session.save(category);
             session.getTransaction().commit();
         } catch (Exception ex) {
-            // TODO error form
+            new ErrorPane().displayError("Категория с таким названием уже существует",
+                "Ошибка создания категории!");
         }
     }
 
@@ -25,7 +28,7 @@ public class CategoryController {
             session.update(category);
             session.getTransaction().commit();
         } catch (Exception ex) {
-            // TODO error form
+            ex.printStackTrace();
         }
     }
 
@@ -35,7 +38,7 @@ public class CategoryController {
             session.delete(category);
             session.getTransaction().commit();
         } catch (Exception ex) {
-            // TODO error form
+            ex.printStackTrace();
         }
     }
 
@@ -44,7 +47,7 @@ public class CategoryController {
         try (Session session = HibernateConnection.getSessionFactory().openSession()) {
             category = session.load(Category.class, categoryName);
         } catch (Exception ex) {
-            // TODO error form
+            ex.printStackTrace();
         }
         return category;
     }
@@ -55,7 +58,7 @@ public class CategoryController {
             criteria.from(Category.class);
             return session.createQuery(criteria).getResultList();
         } catch (Exception ex) {
-            // TODO error form
+            ex.printStackTrace();
             return new ArrayList<>();
         }
     }
