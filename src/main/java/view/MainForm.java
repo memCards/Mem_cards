@@ -77,7 +77,7 @@ public class MainForm extends JFrame {
     }
 
     private void learnButtonListener() {
-        learnButton.addActionListener(event -> new QuizForm(user));
+        learnButton.addActionListener(event -> new QuizCategorySelectionForm(user));
     }
 
     /**

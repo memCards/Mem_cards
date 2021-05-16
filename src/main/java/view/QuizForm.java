@@ -5,15 +5,16 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import control.UserController;
 import entity.Card;
+import entity.Category;
 import entity.User;
 import ui.ButtonStyle;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 public class QuizForm extends JFrame {
     private transient User user;
@@ -31,8 +32,9 @@ public class QuizForm extends JFrame {
     private int i = 0;
     private boolean checkCorrect = false;
 
-    public QuizForm(User user) {
+    public QuizForm(User user, List<Card> quizList) {
         this.user = user;
+        this.quizList = quizList;
         $$$setupUI$$$();
         this.setTitle("Quiz");
         this.setContentPane(mainPanel);
@@ -43,7 +45,7 @@ public class QuizForm extends JFrame {
         FrameLocation.setFrameLocation(this);
         setVisible(true);
         exitButtonListener();
-        initQuizList();
+        quiz(i);
         nextQuestionButtonListener();
         correctAnsButtonListener();
     }
@@ -80,21 +82,6 @@ public class QuizForm extends JFrame {
                         "Ответ неверный!");
             }
         });
-    }
-
-    private void initQuizList() {
-        user = new UserController().getUserByEmail(user.getEmail());
-        Set<Card> cards = user.getCards();
-        if (cards.isEmpty()) {
-            this.setVisible(false);
-            JOptionPane.showMessageDialog(mainPanel,
-                    "У Вас еще нет карточек!");
-        } else {
-            quizList = new ArrayList<>();
-            quizList.addAll(cards);
-            Collections.shuffle(quizList);
-            quiz(i);
-        }
     }
 
     private void quiz(int i) {
@@ -191,7 +178,10 @@ public class QuizForm extends JFrame {
                 resultName = currentFont.getName();
             }
         }
-        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
     /**
