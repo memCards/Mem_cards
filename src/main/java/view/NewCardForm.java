@@ -23,7 +23,7 @@ public class NewCardForm extends JFrame {
     private final CardsListForm cardsListForm;
     private final transient User user;
     private final transient CardController cardController;
-    private final transient CategoryForm categoryForm = new CategoryForm();
+    private final CategoryForm categoryForm = new CategoryForm();
 
     public NewCardForm(User user, CardsListForm cardsListForm) {
         this.cardsListForm = cardsListForm;
@@ -58,9 +58,7 @@ public class NewCardForm extends JFrame {
         card.setQuestion(questText.getText());
         card.setAnswer(answerPane.getText());
         card.addUser(user);
-
-        //TODO: сохранить категории
-        //card.addCategories(categoryForm.getCategoties());
+        card.addCategories(categoryForm.getCategories());
 
         cardController.addCard(card);
         cardsListForm.updateList();

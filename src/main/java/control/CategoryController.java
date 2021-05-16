@@ -5,6 +5,7 @@ import entity.Category;
 import org.hibernate.Session;
 
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryController {
@@ -38,10 +39,10 @@ public class CategoryController {
         }
     }
 
-    public Category getCategoryById(Long categoryId) {
+    public Category getCategoryByName(String categoryName) {
         Category category = null;
         try (Session session = HibernateConnection.getSessionFactory().openSession()) {
-            category = session.load(Category.class, categoryId);
+            category = session.load(Category.class, categoryName);
         } catch (Exception ex) {
             // TODO error form
         }
@@ -55,7 +56,7 @@ public class CategoryController {
             return session.createQuery(criteria).getResultList();
         } catch (Exception ex) {
             // TODO error form
-            return null;
+            return new ArrayList<>();
         }
     }
 }
