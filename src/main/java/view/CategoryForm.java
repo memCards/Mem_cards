@@ -8,8 +8,6 @@ import entity.Category;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -24,6 +22,7 @@ public class CategoryForm extends JPanel {
     private JButton newCategoryButton;
     private JTextField newCategoryField;
     private final List<JCheckBox> checkBoxList = new ArrayList<>();
+    private JPopupMenu menu = null;
 
     public CategoryForm() {
         $$$setupUI$$$();
@@ -32,6 +31,10 @@ public class CategoryForm extends JPanel {
         this.setVisible(true);
         initButtons();
         initFields();
+    }
+
+    public void setMenu(JPopupMenu menu) {
+        this.menu = menu;
     }
 
     public List<JCheckBox> getCheckBoxList() {
@@ -68,22 +71,16 @@ public class CategoryForm extends JPanel {
 
         List<Category> categories = categoryController.getAllCategories();
 
-        categories.forEach(category -> {
-            addCategoryBox(category);
-        });
+        categories.forEach(this::addCategoryBox);
     }
 
     private void initButtons() {
         newCategoryButton.setBackground(new Color(0xF7A962E0, true));
-        newCategoryButton.setForeground(Color.white);
-        newCategoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                newCategoryButton.setVisible(false);
-                newCategoryField.setVisible(true);
-                newCategoryField.requestFocus();
-                mainPanel.updateUI();
-            }
+        newCategoryButton.addActionListener(e -> {
+            newCategoryButton.setVisible(false);
+            newCategoryField.setVisible(true);
+            newCategoryField.requestFocus();
+            mainPanel.updateUI();
         });
     }
 
@@ -101,6 +98,7 @@ public class CategoryForm extends JPanel {
                     newCategoryField.setText("");
                     newCategoryField.setVisible(false);
                     addCategoryBox(category);
+                    menu.pack();
                     mainPanel.updateUI();
                 }
             }

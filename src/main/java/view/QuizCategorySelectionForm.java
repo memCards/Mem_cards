@@ -11,8 +11,6 @@ import entity.User;
 import ui.ButtonStyle;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.util.List;
 import java.util.*;
@@ -56,20 +54,20 @@ public class QuizCategorySelectionForm extends JFrame {
     private void continueButtonListener() {
         continueButton.addActionListener(event -> {
             int i = categoryBox.getSelectedIndex();
-            String selectedCategory = categoryNameList.get(i);
-            if (createCardsArray(selectedCategory).isEmpty()) {
+            String selectedName = categoryNameList.get(i);
+            if (createCardsArray(selectedName).isEmpty()) {
                 this.setVisible(false);
                 JOptionPane.showMessageDialog(mainPanel,
                         "В данной категории нет карточек");
             } else {
-                new QuizForm(user, createCardsArray(selectedCategory));
+                new QuizForm(user, createCardsArray(selectedName));
                 setVisible(false);
             }
 
         });
     }
 
-    private List<Card> createCardsArray(String selectedCategory) {
+    private List<Card> createCardsArray(String selectedName) {
         user = new UserController().getUserByEmail(user.getEmail());
         List<Card> quizList = new ArrayList<>();
         Set<Card> cards = user.getCards();
@@ -79,9 +77,9 @@ public class QuizCategorySelectionForm extends JFrame {
                     "У Вас еще нет карточек!");
         } else {
             for (Card card : cards) {
-                Set<Category> categiryList = card.getCategories();
-                for (Category category : categiryList) {
-                    if (selectedCategory.equals(category.getCategoryName())) {
+                Set<Category> categoryList = card.getCategories();
+                for (Category category : categoryList) {
+                    if (selectedName.equals(category.getCategoryName())) {
                         quizList.add(card);
                         break;
                     }
@@ -156,10 +154,7 @@ public class QuizCategorySelectionForm extends JFrame {
                 resultName = currentFont.getName();
             }
         }
-        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
-        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
-        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
-        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
 }

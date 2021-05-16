@@ -48,6 +48,7 @@ public class NewCardForm extends JFrame {
         categoryButton.setForeground(Color.white);
         final JPopupMenu menu = new JPopupMenu();
         menu.add(categoryForm);
+        categoryForm.setMenu(menu);
         categoryButton.addActionListener(e -> menu.show(this, categoryButton.getBounds().x,
                 categoryButton.getBounds().y + categoryButton.getBounds().height));
     }
