@@ -48,20 +48,25 @@ public class NewCardForm extends JFrame {
         categoryButton.setForeground(Color.white);
         final JPopupMenu menu = new JPopupMenu();
         menu.add(categoryForm);
+        categoryForm.setMenu(menu);
         categoryButton.addActionListener(e -> menu.show(this, categoryButton.getBounds().x,
                 categoryButton.getBounds().y + categoryButton.getBounds().height));
     }
 
     private void pushCard() {
-        Card card = new Card();
-        card.setId((long) 0);
-        card.setQuestion(questText.getText());
-        card.setAnswer(answerPane.getText());
-        card.addUser(user);
-        card.addCategories(categoryForm.getCategories());
+        if (!questText.getText().isEmpty() && !answerPane.getText().isEmpty()) {
+            Card card = new Card();
+            card.setId((long) 0);
+            card.setQuestion(questText.getText());
+            card.setAnswer(answerPane.getText());
+            card.addUser(user);
+            card.addCategories(categoryForm.getCategories());
 
-        cardController.addCard(card);
-        cardsListForm.updateList();
+            cardController.addCard(card);
+            cardsListForm.updateList();
+        } else {
+            new ErrorPane().displayError("Вопрос и ответ не должны быть пустыми.", "Ошибка!");
+        }
     }
 
     {

@@ -1,13 +1,15 @@
 package view;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 import control.CategoryController;
 import entity.Card;
 import entity.Category;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,13 +19,22 @@ public class CategoryForm extends JPanel {
     private JPanel listPanel;
     private JScrollPane scrollPane;
     private JPanel mainPanel;
+    private JButton newCategoryButton;
+    private JTextField newCategoryField;
     private final List<JCheckBox> checkBoxList = new ArrayList<>();
+    private JPopupMenu menu = null;
 
     public CategoryForm() {
         $$$setupUI$$$();
         initList();
         this.add(mainPanel);
         this.setVisible(true);
+        initButtons();
+        initFields();
+    }
+
+    public void setMenu(JPopupMenu menu) {
+        this.menu = menu;
     }
 
     public List<JCheckBox> getCheckBoxList() {
@@ -60,11 +71,44 @@ public class CategoryForm extends JPanel {
 
         List<Category> categories = categoryController.getAllCategories();
 
-        categories.forEach(category -> {
-            JCheckBox checkBox = new JCheckBox(category.getCategoryName());
-            listPanel.add(checkBox);
-            checkBoxList.add(checkBox);
+        categories.forEach(this::addCategoryBox);
+    }
+
+    private void initButtons() {
+        newCategoryButton.setBackground(new Color(0xF7A962E0, true));
+        newCategoryButton.addActionListener(e -> {
+            newCategoryButton.setVisible(false);
+            newCategoryField.setVisible(true);
+            newCategoryField.requestFocus();
+            mainPanel.updateUI();
         });
+    }
+
+    private void initFields() {
+        newCategoryField.setVisible(false);
+        newCategoryField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    CategoryController categoryController = new CategoryController();
+                    Category category = new Category();
+                    category.setCategoryName(newCategoryField.getText());
+                    categoryController.addCategory(category);
+                    newCategoryButton.setVisible(true);
+                    newCategoryField.setText("");
+                    newCategoryField.setVisible(false);
+                    addCategoryBox(category);
+                    menu.pack();
+                    mainPanel.updateUI();
+                }
+            }
+        });
+    }
+
+    private void addCategoryBox(Category category) {
+        JCheckBox checkBox = new JCheckBox(category.getCategoryName());
+        listPanel.add(checkBox);
+        checkBoxList.add(checkBox);
     }
 
     /**
@@ -77,18 +121,26 @@ public class CategoryForm extends JPanel {
     private void $$$setupUI$$$() {
         createUIComponents();
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new FormLayout("fill:d:grow", "center:d:grow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:d:grow"));
         mainPanel.setAutoscrolls(true);
         scrollPane = new JScrollPane();
         scrollPane.setAutoscrolls(true);
         scrollPane.setMaximumSize(new Dimension(200, 40));
         scrollPane.setVerifyInputWhenFocusTarget(true);
         scrollPane.setVerticalScrollBarPolicy(20);
-        mainPanel.add(scrollPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        CellConstraints cc = new CellConstraints();
+        mainPanel.add(scrollPane, cc.xy(1, 5, CellConstraints.FILL, CellConstraints.FILL));
         listPanel.setAutoscrolls(true);
         listPanel.setInheritsPopupMenu(false);
         listPanel.setMaximumSize(new Dimension(-1, -1));
         scrollPane.setViewportView(listPanel);
+        newCategoryButton = new JButton();
+        newCategoryButton.setText("Новая категория");
+        mainPanel.add(newCategoryButton, cc.xy(1, 1));
+        newCategoryField = new JTextField();
+        newCategoryField.setEditable(true);
+        newCategoryField.setText("");
+        mainPanel.add(newCategoryField, cc.xy(1, 3));
     }
 
     /**

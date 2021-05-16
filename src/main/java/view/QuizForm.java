@@ -3,10 +3,7 @@ package view;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import control.UserController;
 import entity.Card;
-import entity.Category;
-import entity.User;
 import ui.ButtonStyle;
 
 import javax.swing.*;
@@ -17,7 +14,6 @@ import java.util.*;
 import java.util.List;
 
 public class QuizForm extends JFrame {
-    private transient User user;
     private JPanel mainPanel;
     private JLabel questionLabel;
     private JTextField questionTxt;
@@ -28,12 +24,11 @@ public class QuizForm extends JFrame {
 
     private JButton correctAnsButton;
     private JTextField correctAnsField;
-    private transient List<Card> quizList;
+    private final transient List<Card> quizList;
     private int i = 0;
     private boolean checkCorrect = false;
 
-    public QuizForm(User user, List<Card> quizList) {
-        this.user = user;
+    public QuizForm(List<Card> quizList) {
         this.quizList = quizList;
         $$$setupUI$$$();
         this.setTitle("Quiz");
@@ -67,11 +62,13 @@ public class QuizForm extends JFrame {
             answer = answer.replaceAll("\\s+", "").toUpperCase();
             String correctAnswer = quizList.get(i).getAnswer();
             correctAnswer = correctAnswer.replaceAll("\\s+", "").toUpperCase();
-            if (i == quizList.size() - 1) {
-                this.setVisible(false);
-                JOptionPane.showMessageDialog(mainPanel,
-                        "Вы прошли викторину!");
-            } else if (answer.equals(correctAnswer) || checkCorrect) {
+            if (answer.equals(correctAnswer) || checkCorrect) {
+                if (i == quizList.size() - 1) {
+                    this.setVisible(false);
+                    JOptionPane.showMessageDialog(mainPanel,
+                            "Вы прошли викторину!");
+                    return;
+                }
                 correctAnsField.setText("");
                 checkCorrect = false;
                 answerTxt.setText("");
@@ -178,10 +175,7 @@ public class QuizForm extends JFrame {
                 resultName = currentFont.getName();
             }
         }
-        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
-        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
-        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
-        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**
