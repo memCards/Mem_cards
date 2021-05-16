@@ -1,15 +1,13 @@
 package view;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 import control.CategoryController;
 import entity.Card;
 import entity.Category;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -118,25 +116,26 @@ public class CategoryForm extends JPanel {
     private void $$$setupUI$$$() {
         createUIComponents();
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new FormLayout("fill:d:grow", "center:d:grow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:d:grow,top:4dlu:noGrow,center:d:grow"));
         mainPanel.setAutoscrolls(true);
         scrollPane = new JScrollPane();
         scrollPane.setAutoscrolls(true);
         scrollPane.setMaximumSize(new Dimension(200, 40));
         scrollPane.setVerifyInputWhenFocusTarget(true);
         scrollPane.setVerticalScrollBarPolicy(20);
-        mainPanel.add(scrollPane, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        CellConstraints cc = new CellConstraints();
+        mainPanel.add(scrollPane, cc.xy(1, 5, CellConstraints.FILL, CellConstraints.FILL));
         listPanel.setAutoscrolls(true);
         listPanel.setInheritsPopupMenu(false);
         listPanel.setMaximumSize(new Dimension(-1, -1));
         scrollPane.setViewportView(listPanel);
         newCategoryButton = new JButton();
         newCategoryButton.setText("Новая категория");
-        mainPanel.add(newCategoryButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(newCategoryButton, cc.xy(1, 1));
         newCategoryField = new JTextField();
         newCategoryField.setEditable(true);
         newCategoryField.setText("");
-        mainPanel.add(newCategoryField, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(140, -1), null, 0, false));
+        mainPanel.add(newCategoryField, cc.xy(1, 3));
     }
 
     /**
