@@ -29,7 +29,7 @@
                 <column name="card_id" not-null="true"/>
             </key>
             <many-to-many entity-name="entity.Category">
-                <column name="category_id" not-null="true"/>
+                <column name="category_name" not-null="true"/>
             </many-to-many>
         </set>
     </class>

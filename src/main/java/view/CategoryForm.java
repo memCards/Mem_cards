@@ -2,6 +2,9 @@ package view;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import control.CategoryController;
+import entity.Card;
+import entity.Category;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,29 +30,41 @@ public class CategoryForm extends JPanel {
         return checkBoxList;
     }
 
+    public Set<Category> getCategories() {
+        Set<Category> categories = new HashSet<>();
 
-    // TODO: реализовать получение категорий
-//    public Set<entity.Category> getCategories() {
-//        Set<entity.Category> categories = new HashSet<>();
-//
-//        checkBoxList.forEach(category -> {
-//            if (category.isSelected()) {
-//                categories.add(new Category(category.getText()));
-//            }
-//        });
-//
-//        return categories;
-//    }
+        checkBoxList.forEach(category -> {
+            if (category.isSelected()) {
+                Category cat = new Category();
+                cat.setCategoryName(category.getText());
+                categories.add(cat);
+            }
+        });
+
+        return categories;
+    }
+
+    public void selectCardCategories(Card card) {
+        Set<Category> categories = card.getCategories();
+        Set<String> categoriesNames = new HashSet<>();
+        categories.forEach(category -> categoriesNames.add(category.getCategoryName()));
+        checkBoxList.forEach(categoryButton -> {
+            if (categoriesNames.contains(categoryButton.getText())) {
+                categoryButton.setSelected(true);
+            }
+        });
+    }
 
     private void initList() {
-        // TODO: получать категории из бд
-        String[] categories = new String[]{"1", "2", "3"};
+        CategoryController categoryController = new CategoryController();
 
-        for (String category : categories) {
-            JCheckBox checkBox = new JCheckBox(category);
+        List<Category> categories = categoryController.getAllCategories();
+
+        categories.forEach(category -> {
+            JCheckBox checkBox = new JCheckBox(category.getCategoryName());
             listPanel.add(checkBox);
             checkBoxList.add(checkBox);
-        }
+        });
     }
 
     /**

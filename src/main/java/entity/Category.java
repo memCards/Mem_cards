@@ -5,19 +5,11 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Category {
-    private Long id;
     private String categoryName;
     private Set<Card> cards = new HashSet<>();
 
     public Category() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        // default constructor
     }
 
     public String getCategoryName() {
@@ -49,19 +41,19 @@ public class Category {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
-        return id.equals(category.id);
+        return categoryName.equals(category.categoryName) &&
+                Objects.equals(cards, category.cards);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(categoryName, cards);
     }
 
     @Override
     public String toString() {
         return "Category{" +
-                "id=" + id +
-                ", categoryName='" + categoryName + '\'' +
+                "categoryName='" + categoryName + '\'' +
                 '}';
     }
 }

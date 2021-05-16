@@ -9,15 +9,11 @@
             This class contains category types
         </meta>
 
-        <id name="id" type="java.lang.Long" column="id">
-            <generator class="increment"/>
-        </id>
-
-        <property name="categoryName" type="java.lang.String" column="category_name" unique="true"/>
+        <id name="categoryName" type="string" column="category_name"/>
 
         <set name="cards" table="card_categories" lazy="false">
             <key>
-                <column name="category_id" not-null="true"/>
+                <column name="category_name" not-null="true"/>
             </key>
             <many-to-many entity-name="entity.Card">
                 <column name="card_id" not-null="true"/>

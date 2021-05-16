@@ -23,12 +23,13 @@ public class EditForm extends JFrame {
     private final transient Card card;
     private final transient CardController cardController;
     private final CardsListForm cardsListForm;
-    private final transient CategoryForm categoryForm = new CategoryForm();
+    private final CategoryForm categoryForm = new CategoryForm();
 
     public EditForm(Card card, CardController cardController, CardsListForm cardsListForm) {
         this.card = card;
         this.cardController = cardController;
         this.cardsListForm = cardsListForm;
+        this.categoryForm.selectCardCategories(card);
 
         this.setPreferredSize(new Dimension(300, 270));
         this.setTitle("Редактирование");
@@ -56,8 +57,7 @@ public class EditForm extends JFrame {
             public void mousePressed(MouseEvent e) {
                 card.setQuestion(questionTextField.getText());
                 card.setAnswer(answerTextPane.getText());
-                //TODO: сохранить категории
-                //card.setCategories(categoryForm.getCategoties());
+                card.setCategories(categoryForm.getCategories());
                 cardController.updateCard(card);
                 cardsListForm.updateList();
                 dispose();

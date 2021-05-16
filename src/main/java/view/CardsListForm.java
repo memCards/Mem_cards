@@ -78,9 +78,7 @@ public class CardsListForm extends JPanel {
 
     private void initButtons() {
         newCardButton.addActionListener(e -> {
-            if (newCardForm == null) {
-                newCardForm = new NewCardForm(user, this);
-            }
+            newCardForm = new NewCardForm(user, this);
             FrameLocation.setFrameLocation(newCardForm);
             newCardForm.setVisible(true);
         });
