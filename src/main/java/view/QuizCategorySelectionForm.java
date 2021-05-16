@@ -62,7 +62,7 @@ public class QuizCategorySelectionForm extends JFrame {
                 JOptionPane.showMessageDialog(mainPanel,
                         "В данной категории нет карточек");
             } else {
-                new QuizForm(user, createCardsArray(selectedCategory));
+                new QuizForm(createCardsArray(selectedCategory));
                 setVisible(false);
             }
 
@@ -79,8 +79,8 @@ public class QuizCategorySelectionForm extends JFrame {
                     "У Вас еще нет карточек!");
         } else {
             for (Card card : cards) {
-                Set<Category> categiryList = card.getCategories();
-                for (Category category : categiryList) {
+                Set<Category> categoryList = card.getCategories();
+                for (Category category : categoryList) {
                     if (selectedCategory.equals(category.getCategoryName())) {
                         quizList.add(card);
                         break;

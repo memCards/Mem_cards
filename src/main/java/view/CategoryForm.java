@@ -68,22 +68,17 @@ public class CategoryForm extends JPanel {
 
         List<Category> categories = categoryController.getAllCategories();
 
-        categories.forEach(category -> {
-            addCategoryBox(category);
-        });
+        categories.forEach(this::addCategoryBox);
     }
 
     private void initButtons() {
         newCategoryButton.setBackground(new Color(0xF7A962E0, true));
         newCategoryButton.setForeground(Color.white);
-        newCategoryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                newCategoryButton.setVisible(false);
-                newCategoryField.setVisible(true);
-                newCategoryField.requestFocus();
-                mainPanel.updateUI();
-            }
+        newCategoryButton.addActionListener(e -> {
+            newCategoryButton.setVisible(false);
+            newCategoryField.setVisible(true);
+            newCategoryField.requestFocus();
+            mainPanel.updateUI();
         });
     }
 

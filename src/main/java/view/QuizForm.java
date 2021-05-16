@@ -4,7 +4,6 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import entity.Card;
-import entity.User;
 import ui.ButtonStyle;
 
 import javax.swing.*;
@@ -29,7 +28,7 @@ public class QuizForm extends JFrame {
     private int i = 0;
     private boolean checkCorrect = false;
 
-    public QuizForm(User user, List<Card> quizList) {
+    public QuizForm(List<Card> quizList) {
         this.quizList = quizList;
         $$$setupUI$$$();
         this.setTitle("Quiz");
